@@ -1,7 +1,7 @@
 {
   "name": "schema-settings",
   "version": "1.0.0",
-  "description": "json schema settings for overlayed",
+  "description": "JSON Schema based settings provider",
   "main": "index.js",
   "dependencies": {
     "ajv": "^6.5.4",
@@ -23,5 +23,5 @@
     "test": "nyc mocha"
   },
   "author": "Ben Greenier",
-  "license": "ISC"
+  "license": "MIT"
 }
