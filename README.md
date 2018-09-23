@@ -1,5 +1,7 @@
 # schema-settings
 
+[![Build Status](https://travis-ci.org/bengreenier/schema-settings.svg?branch=master)](https://travis-ci.org/bengreenier/schema-settings)
+
 JSON Schema based settings provider :gear:
 
 ```
