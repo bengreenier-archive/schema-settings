@@ -2,6 +2,8 @@
 
 [![Build Status](https://travis-ci.org/bengreenier/schema-settings.svg?branch=master)](https://travis-ci.org/bengreenier/schema-settings)
 
+> __Deprecated.__ See [contributes](https://github.com/overlayed-app/contributes).
+
 JSON Schema based settings provider :gear:
 
 ```
