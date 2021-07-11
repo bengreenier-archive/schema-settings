@@ -1,6 +1,6 @@
 declare module 'schema-settings' {
   import {Options} from 'ajv'
-  import {readFileSync, writeFileSync} from 'jsonfile'
+  import {JFReadOptions, Path, JFWriteOptions} from 'jsonfile'
 
   interface ISchemaSettingsArgs {
     /**
@@ -16,12 +16,12 @@ declare module 'schema-settings' {
     /**
      * A readFile implementation
      */
-    readFile ?: readFileSync,
+    readFile ?: (file: Path, options?: JFReadOptions) => any,
 
     /**
      * A writeFile implementation
      */
-    writeFile ?: writeFileSync,
+    writeFile ?: (file: Path, obj: any, options?: JFWriteOptions) => void,
 
     /**
      * The ajv compilation arguments
@@ -62,13 +62,7 @@ declare module 'schema-settings' {
      * @param selector sub object selector
      * @param val value to store
      */
-    set(selector : string, val : object) : void
-
-    /**
-     * Set's all of the settings
-     * @param selector sub object selector
-     */
-    set(val : object) : void
+    set(selector : string | object, val ?: object) : void
 
     /**
      * Walks toward a selector against a given object and calls callback for each step
@@ -76,7 +70,7 @@ declare module 'schema-settings' {
      * @param obj object
      * @param cb step callback, given (obj ptr, selector part, selector part index, total selector parts count)
      */
-    walkTree(selector, obj, cb)
+    walkTree(selector : string, obj : object, cb : (obj : any, key : string, i : number, keyCount : number) => void) : void
 
     /**
      * Evaluates a selector against a given object and returns the selected bits
@@ -84,7 +78,7 @@ declare module 'schema-settings' {
      * @param obj object
      * @param type the evaluation type we use (copy-tree, or reference src object)
      */
-    evaluateSelector(selector : string, obj : object, type : 'reference' | 'copy' = 'reference') : object
+    evaluateSelector(selector : string, obj : object, type : 'reference' | 'copy') : object
 
     /**
      * Generates selectors for a given object shape
@@ -97,14 +91,24 @@ declare module 'schema-settings' {
    * JSONSchema strong settings
    */
   export class SchemaSettings implements ISchemaSettings {
+
+    get(selector?: string | undefined): object;
+    getTree(selector?: string | undefined): object;
+    set(selector: string, val: object): void;
+    set(val: object): void;
+    set(selector: any, val?: any) : void;
+    walkTree(selector: any, obj: any, cb: any) : void;
+    evaluateSelector(selector: string, obj: object, type?: "reference" | "copy"): object;
+    generateSelectors(srcObject: object): string[];
+
     /**
      * Creates an instance of SchemaSettings
      * 
      * By default, this uses coercion and defaults for the provided schema
      * 
-     * @param ISchemaSettingsArgs Ctor args
+     * @param args Ctor args
      */
-    constructor(ISchemaSettingsArgs)
+    constructor(args : ISchemaSettingsArgs)
   }
 
   export const global : ISchemaSettings & {configure: (args: ISchemaSettingsArgs) => void}
